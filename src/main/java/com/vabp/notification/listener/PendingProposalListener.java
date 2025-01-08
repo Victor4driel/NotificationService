@@ -5,13 +5,17 @@ import com.vabp.notification.domain.Proposal;
 import com.vabp.notification.service.NotificationSNSService;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 public class PendingProposalListener {
 
     private NotificationSNSService notificationSNSService;
+
+    public PendingProposalListener(NotificationSNSService notificationSNSService) {
+        this.notificationSNSService = notificationSNSService;
+    }
 
     @RabbitListener(queues = "${rabbit.queue.pending.proposal}")
     public void pendingProposal(Proposal proposal) {
